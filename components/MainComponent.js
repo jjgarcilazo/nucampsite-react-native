@@ -11,6 +11,15 @@ import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
 import { createAppContainer } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import SafeAreaView from 'react-native-safe-area-view';
+import { connect } from 'react-redux';
+import { fetchCampsites, fetchComments, fetchPromotions, fetchPartners } from '../redux/ActionCreators';
+
+const mapDispatchToProps = {
+  fetchCampsites,
+  fetchComments,
+  fetchPromotions,
+  fetchPartners
+};
 
 const DirectoryNavigator = createStackNavigator(
   {
@@ -62,7 +71,6 @@ const HomeNavigator = createStackNavigator(
     })
   }
 );
-
 const AboutNavigator = createStackNavigator(
   {
     About: { screen: About },
@@ -87,7 +95,6 @@ const AboutNavigator = createStackNavigator(
     }),
   }
 );
-
 const ContactNavigator = createStackNavigator(
   {
     Contact: { screen: Contact },
@@ -112,7 +119,6 @@ const ContactNavigator = createStackNavigator(
     }),
   }
 );
-
 const CustomDrawerContentComponent = props => (
   <ScrollView>
     <SafeAreaView
@@ -134,7 +140,6 @@ const CustomDrawerContentComponent = props => (
     </SafeAreaView>
   </ScrollView>
 );
-
 const MainNavigator = createDrawerNavigator(
   {
     Home: {
@@ -197,9 +202,17 @@ const MainNavigator = createDrawerNavigator(
     contentComponent: CustomDrawerContentComponent
   }
 );
-
 const AppNavigator = createAppContainer(MainNavigator);
+
 class Main extends Component {
+
+  componentDidMount() {
+    this.props.fetchCampsites();
+    this.props.fetchComments();
+    this.props.fetchPromotions();
+    this.props.fetchPartners();
+  }
+
   render() {
     return (
       <View 
@@ -213,7 +226,6 @@ class Main extends Component {
     );
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1
@@ -243,4 +255,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Main;
+export default connect(null, mapDispatchToProps)(Main);
