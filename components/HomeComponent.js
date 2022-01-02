@@ -27,7 +27,7 @@ function RenderItem(props) {
         return (
             <Card
                 featuredTitle={item.name}
-                image={{url: baseUrl + item.image}}>
+                image={{uri: baseUrl + item.image}}>
                     <Text
                         style={{margin:10}}>
                         {item.description}
@@ -37,16 +37,13 @@ function RenderItem(props) {
     }
     return <View />;
 }
-
 class Home extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
             scaleValue: new Animated.Value(0)
         };
     }
-
     animate() {
         Animated.timing(
             this.state.scaleValue,
@@ -57,15 +54,12 @@ class Home extends Component {
             }
         ).start();
     }
-
     componentDidMount() {
         this.animate();
     }
-
     static navigationOptions = {
         title: 'Home'
     }
-
     render() {
         return (
             <Animated.ScrollView style={{transform: [{scale: this.state.scaleValue}]}}>

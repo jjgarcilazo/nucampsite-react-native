@@ -18,10 +18,11 @@ const mapDispatchToProps = {
     postComment: (campsiteId, rating, author, text) => (postComment(campsiteId, rating, author, text))
 };
 function RenderCampsite(props) {
-
     const {campsite} = props;
 
     const recognizeDrag = ({dx}) => (dx < -200) ? true : false;
+
+    const recognizeComment = ({dx}) => (dx > 200) ? true: false;
 
     const view = React.createRef();
 
@@ -51,11 +52,13 @@ function RenderCampsite(props) {
                     ],
                     { cancelable: false }
                 );
+            };
+            if (recognizeComment(gestureState)) {
+                props.onShowModal()
             }
             return true;
         }
     });
-
     if (campsite) {
         return (
             <Animatable.View 
